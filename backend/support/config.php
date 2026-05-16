@@ -37,6 +37,9 @@ function url(string $path = ''): string {
     return BASE_URL . '/' . $path;
 }
 
+/**Configuração das Pastas na view */
+define("CONF_VIEW_WEB","web");
+define("CONF_VIEW_ADM","adm");
 /**
  * Função para acessar ficheiros/assets estáticos (CSS, JS, Imagens).
  * Aponta diretamente para dentro da pasta 'public/'.
@@ -44,7 +47,8 @@ function url(string $path = ''): string {
  * @param string $file Caminho do arquivo dentro de public (ex: 'css/style.css')
  * @return string URL completa para o arquivo
  */
-function asset(string $file = ''): string {
+function asset(string $file = '',string $mdkdir): string {
+    $pasta=(string) $mdkdir??'';
     $file = ltrim($file, '/');
-    return BASE_URL . '/assets/' . $file;
+    return BASE_URL . $pasta.'/assets/' . $file;
 }
