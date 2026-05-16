@@ -1,0 +1,21 @@
+{
+    "name": "job/carpool",
+    "description": "Sistema de Caronas utilizando o padrão MVC",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "backend\\": "backend/"
+        }
+    },
+    "files":[  
+        "backend/support/config.php"
+    ],
+    "authors": [
+        {
+            "name": "Job Mariano"
+        }
+    ],
+    "require": {
+        "bramus/router": "~1.6"
+    }
+}
