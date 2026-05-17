@@ -4,12 +4,13 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "backend\\": "backend/"
-        }
+            "Backend\\": "backend/"
+        },
+        "files": [  
+            "backend/support/config.php",
+            "backend/support/Helpers.php"
+        ]
     },
-    "files":[  
-        "backend/support/config.php"
-    ],
     "authors": [
         {
             "name": "Job Mariano"
@@ -17,5 +18,9 @@
     ],
     "require": {
         "bramus/router": "~1.6"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
     }
 }

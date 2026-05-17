@@ -18,7 +18,7 @@ date_default_timezone_set('Africa/Luanda');
 // 3. CONFIGURAÇÃO DA URL BASE DO PROJETO
 // ==============================================================================
 // Altere para o caminho exato onde o projeto roda no seu ambiente local ou produção
-define('BASE_URL', 'http://localhost/carpool');
+define('BASE_URL', 'http://localhost/carpool/');
 
 // ==============================================================================
 // 4. FUNÇÕES AUXILIARES (HELPERS)
@@ -38,17 +38,7 @@ function url(string $path = ''): string {
 }
 
 /**Configuração das Pastas na view */
-define("CONF_VIEW_WEB","web");
-define("CONF_VIEW_ADM","adm");
-/**
- * Função para acessar ficheiros/assets estáticos (CSS, JS, Imagens).
- * Aponta diretamente para dentro da pasta 'public/'.
- * 
- * @param string $file Caminho do arquivo dentro de public (ex: 'css/style.css')
- * @return string URL completa para o arquivo
- */
-function asset(string $file = '',string $mdkdir): string {
-    $pasta=(string) $mdkdir??'';
-    $file = ltrim($file, '/');
-    return BASE_URL . $pasta.'/assets/' . $file;
-}
+define("CONF_VIEW_PATH", dirname(__DIR__) . "/frontend");
+define("BASE_DIR", dirname(__DIR__, 2));
+define("CONF_VIEW_WEB", CONF_VIEW_PATH . "/web");
+define("CONF_VIEW_ADM", CONF_VIEW_PATH . "/adm");

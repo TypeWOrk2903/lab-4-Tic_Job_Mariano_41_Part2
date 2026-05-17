@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --primary: #ffaa44;
+        }
+        
+        .tail-container {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .logo-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Neumorphism Utilities */
+        .neumorph {
+            background: #f0f2f5;
+            box-shadow: -6px -6px 12px #ffffff,
+                        6px 6px 12px #d1d9e6;
+        }
+        
+        .neumorph-dark {
+            background: #273549;
+            box-shadow: -6px -6px 12px #374a63,
+                        6px 6px 12px #1a2638;
+        }
+        
+        .neumorph-inset {
+            background: #f0f2f5;
+            box-shadow: inset 4px 4px 8px #d1d9e6,
+                        inset -4px -4px 8px #ffffff;
+        }
+        
+        .neumorph-inset-dark {
+            background: #273549;
+            box-shadow: inset 4px 4px 8px #1a2638,
+                        inset -4px -4px 8px #374a63;
+        }
+        
+        .btn-neumorph {
+            background: #f0f2f5;
+            box-shadow: -4px -4px 8px #ffffff,
+                        4px 4px 8px #d1d9e6;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-neumorph:hover {
+            box-shadow: -2px -2px 4px #ffffff,
+                        2px 2px 4px #d1d9e6;
+        }
+        
+        .btn-neumorph:active {
+            box-shadow: inset 3px 3px 6px #d1d9e6,
+                        inset -3px -3px 6px #ffffff;
+        }
+        
+        /* Dark mode overrides */
+        .dark .neumorph {
+            background: #273549;
+            box-shadow: -6px -6px 12px #374a63,
+                        6px 6px 12px #1a2638;
+        }
+        
+        .dark .neumorph-inset {
+            background: #273549;
+            box-shadow: inset 4px 4px 8px #1a2638,
+                        inset -4px -4px 8px #374a63;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(rgba(30, 41, 59, 0.75), rgba(30, 41, 59, 0.85)), 
+                        url('<?= asset("images", "hero-carpool.jpg") ?>') center/cover no-repeat;
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+        }
+        
+        .search-input {
+            transition: all 0.2s ease;
+        }
+        
+        .search-input:focus {
+            box-shadow: inset 3px 3px 6px #d1d9e6,
+                        inset -3px -3px 6px #ffffff;
+        }
+        
+        .dark .search-input:focus {
+            box-shadow: inset 3px 3px 6px #1a2638,
+                        inset -3px -3px 6px #374a63;
+        }
+        
+        .loader {
+            border: 6px solid #e5e7eb;
+            border-top: 6px solid #ffaa44;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
