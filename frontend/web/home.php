@@ -1,486 +1,649 @@
 ﻿<!DOCTYPE html>
-<html lang="pt" class="scroll-smooth">
+<html lang="pt" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CARPOOL - Viagens Partilhadas</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><?= $pageTitle ?></title>
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+  <!-- CDNs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-        :root {
-            --primary: #1e3a8a;
-            --accent: #ff6b00;
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'cp-bg':     '#f0f2f5',
+            'cp-blue':   '#1e3a8a',
+            'cp-accent': '#ffaa44',
+            'cp-dark-bg':'#0b0f19',
+            'cp-dark-bl':'#3b82f6',
+            'cp-dark-ac':'#ff8a3d',
+          },
+          fontFamily: {
+            display: ['"Oswald"', 'sans-serif'],
+            sans:    ['"Outfit"', 'sans-serif'],
+          }
         }
-
-        .dark {
-            --primary: #3b82f6;
-            --accent: #ff8a3d;
-        }
-
-        .tail-container {
-            font-family: 'Inter', system-ui, sans-serif;
-        }
-        .logo-font {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .neumorph {
-            background: #f8fafc;
-            box-shadow: -8px -8px 16px #e2e8f0,
-                        8px 8px 16px #f8fafc;
-        }
-        .dark .neumorph {
-            background: #1a2333;
-            box-shadow: -8px -8px 16px #242e4d,
-                        8px 8px 16px #111827;
-        }
-
-        .hero-bg {
-            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)),
-                        url('<?= asset("images", "hero-carpool.jpg") ?>') center/cover no-repeat fixed;
-            transition: background-position 0.1s linear;
-        }
-
-        .card-hover {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .card-hover:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 
-                       0 8px 10px -6px rgb(0 0 0 / 0.1);
-        }
-
-        .input-neumorph {
-            background: #f8fafc;
-            box-shadow: inset 4px 4px 8px #e2e8f0,
-                        inset -4px -4px 8px #ffffff;
-        }
-        .dark .input-neumorph {
-            background: #1a2333;
-            box-shadow: inset 4px 4px 8px #111827,
-                        inset -4px -4px 8px #2a374f;
-        }
-    </style>
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="<?=url_asset("css/style.css"); ?>">
 </head>
-<body class="tail-container bg-[#f8fafc] dark:bg-[#0b0f19] text-[#0f172a] dark:text-[#f8fafc] transition-colors duration-500">
+<body>
 
-    <!-- PRELOADER -->
-    <div id="preloader" class="fixed inset-0 bg-white/95 dark:bg-[#0b0f19]/95 backdrop-blur-xl flex items-center justify-center z-[9999]">
-        <div class="text-center">
-            <div class="w-20 h-20 mx-auto mb-6 neumorph rounded-3xl flex items-center justify-center">
-                <i class="fa-solid fa-car-side text-5xl text-[#ff6b00] dark:text-[#ff8a3d]"></i>
-            </div>
-            <div class="w-10 h-10 border-4 border-gray-200 dark:border-gray-700 border-t-[#ff6b00] dark:border-t-[#ff8a3d] rounded-full animate-spin mx-auto"></div>
-            <p class="mt-6 text-sm font-medium tracking-widest text-gray-500 dark:text-gray-400">CARPOOL</p>
-        </div>
+  <!-- ─── PRELOADER ──────────────────────────────────────────────── -->
+  <div id="preloader">
+    <div class="preloader-logo">CAR<span>POOL</span></div>
+    <div class="preloader-bar"></div>
+  </div>
+
+  <!-- ─── NAVBAR ────────────────────────────────────────────────── -->
+  <nav class="navbar">
+    <a href="#" class="nav-brand">CAR<span>POOL</span></a>
+    <ul class="nav-links">
+      <li><a href="#features"   data-i18n="nav.features">Funcionalidades</a></li>
+      <li><a href="#how"        data-i18n="nav.how">Como Funciona</a></li>
+      <li><a href="#testimonials" data-i18n="nav.testimonials">Testemunhos</a></li>
+    </ul>
+    <div class="nav-controls">
+      <button id="lang-toggle" class="neu-btn" title="Trocar idioma">
+        <i class="fa-solid fa-globe"></i>
+        <span id="lang-label">EN</span>
+      </button>
+      <button id="theme-toggle" class="neu-btn" title="Alternar tema">
+        <i class="fa-solid fa-moon" id="theme-icon"></i>
+      </button>
     </div>
+  </nav>
 
-    <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 right-0 bg-white/80 dark:bg-[#0b0f19]/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-            <div class="flex items-center gap-x-3">
-                <div class="w-11 h-11 bg-[#1e3a8a] dark:bg-[#3b82f6] text-white rounded-2xl flex items-center justify-center neumorph">
-                    <i class="fa-solid fa-car-side text-3xl"></i>
-                </div>
-                <span class="logo-font text-4xl font-bold tracking-tighter">CARPOOL</span>
-            </div>
+  <!-- ─── PAGE GRID ─────────────────────────────────────────────── -->
+  <div class="page-grid">
 
-            <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
-                <a href="#how" class="hover:text-[#ff6b00] dark:hover:text-[#ff8a3d] transition-colors nav-link" data-i18n="nav-how">Como Funciona</a>
-                <a href="#features" class="hover:text-[#ff6b00] dark:hover:text-[#ff8a3d] transition-colors nav-link" data-i18n="nav-features">Vantagens</a>
-                <a href="#testimonials" class="hover:text-[#ff6b00] dark:hover:text-[#ff8a3d] transition-colors nav-link" data-i18n="nav-testimonials">Depoimentos</a>
-            </div>
+    <!-- ════ MAIN COL ════════════════════════════════════════════ -->
+    <main class="main-col">
 
-            <div class="flex items-center gap-x-4">
-                <!-- Language -->
-                <button onclick="toggleLanguage()" 
-                        class="px-5 py-2.5 text-sm font-semibold rounded-3xl neumorph flex items-center gap-x-2 hover:scale-105 transition">
-                    <i class="fa-solid fa-globe"></i>
-                    <span id="lang-text" class="font-mono">PT</span>
-                </button>
-
-                <!-- Theme -->
-                <button onclick="toggleTheme()" id="theme-btn"
-                        class="w-11 h-11 neumorph rounded-3xl flex items-center justify-center text-xl hover:scale-110 transition">
-                    <i id="theme-icon" class="fa-solid fa-moon"></i>
-                </button>
-
-                <!-- Sign In -->
-                <button onclick="showLoginModal()" 
-                        class="px-7 py-3 bg-[#1e3a8a] dark:bg-[#3b82f6] hover:bg-[#1e40af] text-white font-semibold rounded-3xl transition-all flex items-center gap-x-2">
-                    <i class="fa-solid fa-user"></i>
-                    <span data-i18n="nav-signin">Entrar</span>
-                </button>
-            </div>
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="dot"></span>
+            <span data-i18n="hero.badge">Plataforma de Mobilidade #1 em Angola</span>
+          </div>
+          <h1 data-i18n="hero.title_html">Partilhe a viagem.<br><em>Partilhe o futuro.</em></h1>
+          <p data-i18n="hero.subtitle">Conecte-se com colegas em Luanda, Huambo ou Benguela, poupe combustível e reduza emissões de CO₂ com a plataforma de carpooling mais inteligente de Angola.</p>
+          <div class="hero-ctas">
+            <a href="#sidebar-search" class="btn-primary">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span data-i18n="hero.cta1">Encontrar Boleia</span>
+            </a>
+            <a href="<?= url("register") ?>" class="btn-secondary">
+              <i class="fa-solid fa-car-side"></i>
+              <span data-i18n="hero.cta2">Oferecer Boleia</span>
+            </a>
+          </div>
         </div>
-    </nav>
+      </section>
 
-    <!-- HERO -->
-    <header id="hero" class="hero-bg h-screen flex items-center relative pt-20">
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-            <div class="space-y-8">
-                <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-6 py-3 rounded-3xl text-white text-sm">
-                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                    <span data-i18n="hero-live">+12.450 viagens hoje</span>
-                </div>
-                
-                <h1 id="hero-title" class="text-6xl md:text-7xl font-bold leading-none tracking-tighter" data-i18n="hero-title">
-                    Viagens partilhadas.<br>Economia real.
-                </h1>
-                
-                <p id="hero-subtitle" class="text-xl text-white/90 max-w-lg" data-i18n="hero-subtitle">
-                    Encontre boleia ou partilhe o seu carro com pessoas verificadas.
-                </p>
-
-                <button onclick="document.getElementById('booking-form').scrollIntoView({behavior:'smooth'})" 
-                        class="px-10 py-5 bg-[#ff6b00] hover:bg-[#ff8a3d] text-white font-semibold text-lg rounded-3xl transition-all flex items-center gap-x-3">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <span data-i18n="hero-cta">Procurar Viagem</span>
-                </button>
-            </div>
-
-            <!-- BOOKING FORM -->
-            <div id="booking-form" class="neumorph rounded-3xl p-8 md:p-10 shadow-2xl">
-                <h3 class="text-2xl font-semibold mb-8 text-center" data-i18n="form-title">Para onde vamos?</h3>
-                
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-xs font-medium mb-2 text-gray-500 dark:text-gray-400" data-i18n="form-from">DE</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-location-dot absolute left-5 top-1/2 -translate-y-1/2 text-[#ff6b00]"></i>
-                            <input type="text" id="origin" value="Lisboa" 
-                                   class="input-neumorph w-full pl-12 pr-6 py-5 rounded-3xl focus:outline-none text-base">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium mb-2 text-gray-500 dark:text-gray-400" data-i18n="form-to">PARA</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-location-arrow absolute left-5 top-1/2 -translate-y-1/2 text-[#ff6b00]"></i>
-                            <input type="text" id="destination" value="Porto" 
-                                   class="input-neumorph w-full pl-12 pr-6 py-5 rounded-3xl focus:outline-none text-base">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-medium mb-2 text-gray-500 dark:text-gray-400" data-i18n="form-date">DATA</label>
-                            <input type="date" id="date" class="input-neumorph w-full px-6 py-5 rounded-3xl">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium mb-2 text-gray-500 dark:text-gray-400" data-i18n="form-seats">LUGARES</label>
-                            <select id="seats" class="input-neumorph w-full px-6 py-5 rounded-3xl">
-                                <option value="2">2 lugares</option>
-                                <option value="3">3 lugares</option>
-                                <option value="4" selected>4 lugares</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button onclick="performSearch()" 
-                            class="w-full py-6 bg-[#ff6b00] hover:bg-[#ff8a3d] text-white font-bold text-lg rounded-3xl transition-all">
-                        <span data-i18n="form-button">Encontrar Boleias</span>
-                    </button>
-                </div>
-            </div>
+      <!-- STATS -->
+      <div class="stats-strip fade-in">
+        <div class="stat-item">
+          <span class="stat-num">32K+</span>
+          <span class="stat-label" data-i18n="stats.users">Utilizadores Ativos</span>
         </div>
-    </header>
+        <div class="stat-item">
+          <span class="stat-num">890K</span>
+          <span class="stat-label" data-i18n="stats.rides">Viagens Realizadas</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">210T</span>
+          <span class="stat-label" data-i18n="stats.co2">CO₂ Poupado</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">850M Kz</span>
+          <span class="stat-label" data-i18n="stats.saved">Poupanças Totais</span>
+        </div>
+      </div>
 
-    <!-- FEATURES -->
-    <section id="features" class="py-24 bg-white dark:bg-[#0b0f19]">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <span class="px-6 py-2 bg-orange-100 dark:bg-orange-900/30 text-[#ff6b00] rounded-3xl text-sm font-semibold" data-i18n="features-badge">PORQUÊ ESCOLHER-NOS</span>
-                <h2 class="text-5xl font-bold mt-4" data-i18n="features-title">Viagens mais inteligentes</h2>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="neumorph rounded-3xl p-10 card-hover">
-                    <i class="fa-solid fa-piggy-bank text-5xl text-[#ff6b00] mb-6"></i>
-                    <h3 class="text-2xl font-semibold mb-3" data-i18n="feature1-title">Economia</h3>
-                    <p class="text-gray-600 dark:text-gray-400" data-i18n="feature1-desc">Poupe até 70% comparado com viagens individuais.</p>
-                </div>
-                <div class="neumorph rounded-3xl p-10 card-hover">
-                    <i class="fa-solid fa-shield-halved text-5xl text-[#1e3a8a] mb-6"></i>
-                    <h3 class="text-2xl font-semibold mb-3" data-i18n="feature2-title">Segurança</h3>
-                    <p class="text-gray-600 dark:text-gray-400" data-i18n="feature2-desc">Perfis verificados, avaliações e suporte 24/7.</p>
-                </div>
-                <div class="neumorph rounded-3xl p-10 card-hover">
-                    <i class="fa-solid fa-users text-5xl text-[#3b82f6] mb-6"></i>
-                    <h3 class="text-2xl font-semibold mb-3" data-i18n="feature3-title">Comunidade</h3>
-                    <p class="text-gray-600 dark:text-gray-400" data-i18n="feature3-desc">Conheça novas pessoas em cada viagem.</p>
-                </div>
-            </div>
+      <!-- FEATURES -->
+      <section class="section" id="features">
+        <h2 class="section-title fade-in" data-i18n="feat.title">Tudo o que precisa numa só plataforma</h2>
+        <p class="section-subtitle fade-in" data-i18n="feat.subtitle">Desenhado para tornar a mobilidade urbana mais simples, segura e sustentável.</p>
+        <div class="features-grid">
+          <div class="feature-card fade-in">
+            <div class="feature-icon"><i class="fa-solid fa-route"></i></div>
+            <h3 data-i18n="feat.f1.title">Correspondência Inteligente</h3>
+            <p data-i18n="feat.f1.desc">O nosso algoritmo encontra as melhores boleias com base na sua rota, horário e preferências pessoais.</p>
+          </div>
+          <div class="feature-card fade-in" style="transition-delay:.1s">
+            <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3 data-i18n="feat.f2.title">Perfis Verificados</h3>
+            <p data-i18n="feat.f2.desc">Todos os condutores são verificados com documentação válida, carta de condução e avaliações da comunidade.</p>
+          </div>
+          <div class="feature-card fade-in" style="transition-delay:.2s">
+            <div class="feature-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+            <h3 data-i18n="feat.f3.title">Pagamento Fácil</h3>
+            <p data-i18n="feat.f3.desc">Divida os custos automaticamente via Multicaixa Express, Unitel Money ou saldo CARPOOL. Sem dinheiro vivo, sem complicações.</p>
+          </div>
+          <div class="feature-card fade-in" style="transition-delay:.05s">
+            <div class="feature-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
+            <h3 data-i18n="feat.f4.title">Rastreio em Tempo Real</h3>
+            <p data-i18n="feat.f4.desc">Acompanhe a viagem ao vivo e partilhe a sua localização com amigos ou familiares para maior segurança.</p>
+          </div>
+          <div class="feature-card fade-in" style="transition-delay:.15s">
+            <div class="feature-icon"><i class="fa-solid fa-leaf"></i></div>
+            <h3 data-i18n="feat.f5.title">Pegada de Carbono</h3>
+            <p data-i18n="feat.f5.desc">Veja o impacto ambiental positivo de cada viagem partilhada com métricas de CO₂ personalizadas.</p>
+          </div>
+          <div class="feature-card fade-in" style="transition-delay:.25s">
+            <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
+            <h3 data-i18n="feat.f6.title">Alertas Inteligentes</h3>
+            <p data-i18n="feat.f6.desc">Receba notificações quando uma boleia compatível com o seu trajeto habitual ficar disponível.</p>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <!-- HOW IT WORKS -->
-    <section id="how" class="py-24 bg-[#f8fafc] dark:bg-[#111827]">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-5xl font-bold text-center mb-16" data-i18n="how-title">Em 3 passos simples</h2>
-            <div class="grid md:grid-cols-3 gap-10">
-                <div class="text-center">
-                    <div class="w-20 h-20 mx-auto neumorph rounded-3xl flex items-center justify-center text-4xl mb-6">1</div>
-                    <h4 class="font-semibold text-2xl mb-2" data-i18n="step1">Pesquise</h4>
-                    <p class="text-gray-600 dark:text-gray-400" data-i18n="step1-desc">Encontre a viagem perfeita para o seu destino.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-20 h-20 mx-auto neumorph rounded-3xl flex items-center justify-center text-4xl mb-6">2</div>
-                    <h4 class="font-semibold text-2xl mb-2" data-i18n="step2">Reserve</h4>
-                    <p class="text-gray-600 dark:text-gray-400" data-i18n="step2-desc">Confirme e pague de forma segura.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-20 h-20 mx-auto neumorph rounded-3xl flex items-center justify-center text-4xl mb-6">3</div>
-                    <h4 class="font-semibold text-2xl mb-2" data-i18n="step3">Viaje</h4>
-                    <p class="text-gray-600 dark:text-gray-400" data-i18n="step3-desc">Encontre o condutor e parta para a aventura.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+      </section>
 
-    <!-- TESTIMONIALS -->
-    <section id="testimonials" class="py-24 bg-white dark:bg-[#0b0f19]">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-5xl font-bold text-center mb-12" data-i18n="testimonials-title">O que dizem os nossos utilizadores</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="neumorph p-8 rounded-3xl">
-                    <div class="flex gap-1 mb-4">★★★★★</div>
-                    <p class="italic mb-6" data-i18n="testimonial1">"Melhor decisão que tomei este ano. Economizei muito e conheci gente incrível!"</p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-2xl"></div>
-                        <div>
-                            <div class="font-semibold">Maria Santos</div>
-                            <div class="text-sm text-gray-500">Lisboa → Porto</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Repetir mais 2 cards similares -->
-            </div>
-        </div>
-    </section>
+      <!-- IMAGE GALLERY -->
+      <section class="img-section fade-in" id="gallery">
+        <h2 class="section-title" data-i18n="gallery.title">Caronas em Angola</h2>
+        <p class="section-subtitle" data-i18n="gallery.subtitle">Veja como o CARPOOL transforma a mobilidade urbana nas cidades angolanas.</p>
+        <div class="img-gallery">
 
-    <!-- APP PREVIEW -->
-    <section class="py-24 bg-gradient-to-br from-[#0b0f19] to-[#1e3a8a] text-white">
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-12 gap-16 items-center">
-            <div class="md:col-span-5">
-                <h2 class="text-5xl font-bold leading-tight mb-6" data-i18n="app-title">A viagem começa no seu bolso</h2>
-                <p class="text-xl text-white/80 mb-10" data-i18n="app-desc">Descarregue a app CARPOOL e viaje com mais liberdade.</p>
-                <div class="flex gap-4">
-                    <button class="flex-1 bg-black py-5 rounded-3xl flex items-center justify-center gap-3">
-                        <i class="fa-brands fa-apple text-4xl"></i>
-                        <div class="text-left">
-                            <div class="text-xs">Download on the</div>
-                            <div class="font-semibold">App Store</div>
-                        </div>
-                    </button>
-                    <button class="flex-1 bg-black py-5 rounded-3xl flex items-center justify-center gap-3">
-                        <i class="fa-brands fa-google-play text-4xl"></i>
-                        <div class="text-left">
-                            <div class="text-xs">GET IT ON</div>
-                            <div class="font-semibold">Google Play</div>
-                        </div>
-                    </button>
-                </div>
-            </div>
-            <div class="md:col-span-7">
-                <img src="<?= asset('images', 'phone-mockup.png') ?>" alt="App Mockup" class="mx-auto max-w-sm shadow-2xl rounded-[3rem]">
-            </div>
-        </div>
-    </section>
+          <!-- Card 1 — Large: city road scene -->
+          <div class="img-card span-col">
+            <svg viewBox="0 0 480 460" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="skyAO" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#f97316"/>
+                  <stop offset="55%" stop-color="#fcd34d"/>
+                  <stop offset="100%" stop-color="#fed7aa"/>
+                </linearGradient>
+                <linearGradient id="rdAO" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#374151"/>
+                  <stop offset="100%" stop-color="#1f2937"/>
+                </linearGradient>
+              </defs>
+              <!-- Sky / sunset -->
+              <rect width="480" height="460" fill="url(#skyAO)"/>
+              <!-- Sun disc -->
+              <circle cx="380" cy="130" r="55" fill="#fbbf24" opacity=".85"/>
+              <circle cx="380" cy="130" r="70" fill="#fcd34d" opacity=".25"/>
+              <!-- Buildings Luanda skyline -->
+              <rect x="0"   y="170" width="55" height="180" fill="#1e3a8a" opacity=".8" rx="3"/>
+              <rect x="8"   y="185" width="10" height="12" fill="#fcd34d" opacity=".6" rx="1"/>
+              <rect x="22"  y="185" width="10" height="12" fill="#fcd34d" opacity=".6" rx="1"/>
+              <rect x="36"  y="185" width="10" height="12" fill="#fcd34d" opacity=".3" rx="1"/>
+              <rect x="8"   y="205" width="10" height="12" fill="#fcd34d" opacity=".4" rx="1"/>
+              <rect x="22"  y="205" width="10" height="12" fill="#fcd34d" opacity=".6" rx="1"/>
+              <rect x="36"  y="205" width="10" height="12" fill="#fcd34d" opacity=".5" rx="1"/>
+              <rect x="60"  y="140" width="70" height="210" fill="#1e40af" opacity=".85" rx="3"/>
+              <rect x="70"  y="155" width="12" height="14" fill="#fcd34d" opacity=".7" rx="1"/>
+              <rect x="88"  y="155" width="12" height="14" fill="#fcd34d" opacity=".5" rx="1"/>
+              <rect x="106" y="155" width="12" height="14" fill="#fcd34d" opacity=".6" rx="1"/>
+              <rect x="70"  y="178" width="12" height="14" fill="#fcd34d" opacity=".4" rx="1"/>
+              <rect x="88"  y="178" width="12" height="14" fill="#fcd34d" opacity=".7" rx="1"/>
+              <rect x="106" y="178" width="12" height="14" fill="#fcd34d" opacity=".3" rx="1"/>
+              <rect x="70"  y="201" width="12" height="14" fill="#fcd34d" opacity=".6" rx="1"/>
+              <rect x="88"  y="201" width="12" height="14" fill="#fcd34d" opacity=".5" rx="1"/>
+              <rect x="140" y="200" width="45" height="150" fill="#2563eb" opacity=".7" rx="3"/>
+              <rect x="148" y="212" width="9"  height="11" fill="#fcd34d" opacity=".6" rx="1"/>
+              <rect x="162" y="212" width="9"  height="11" fill="#fcd34d" opacity=".4" rx="1"/>
+              <rect x="148" y="230" width="9"  height="11" fill="#fcd34d" opacity=".5" rx="1"/>
+              <rect x="162" y="230" width="9"  height="11" fill="#fcd34d" opacity=".7" rx="1"/>
+              <rect x="195" y="220" width="35" height="130" fill="#1e3a8a" opacity=".75" rx="2"/>
+              <rect x="240" y="185" width="55" height="165" fill="#1d4ed8" opacity=".8" rx="3"/>
+              <rect x="249" y="198" width="10" height="12" fill="#fcd34d" opacity=".6" rx="1"/>
+              <rect x="265" y="198" width="10" height="12" fill="#fcd34d" opacity=".4" rx="1"/>
+              <rect x="281" y="198" width="10" height="12" fill="#fcd34d" opacity=".5" rx="1"/>
+              <rect x="300" y="210" width="40" height="140" fill="#1e40af" opacity=".7" rx="2"/>
+              <rect x="350" y="170" width="55" height="180" fill="#1e3a8a" opacity=".8" rx="3"/>
+              <rect x="410" y="200" width="70" height="150" fill="#2563eb" opacity=".65" rx="2"/>
+              <!-- Road -->
+              <rect x="0" y="340" width="480" height="120" fill="url(#rdAO)" rx="0"/>
+              <!-- Lane markings -->
+              <rect x="0"   y="390" width="60"  height="6" fill="#fcd34d" opacity=".6" rx="3"/>
+              <rect x="80"  y="390" width="60"  height="6" fill="#fcd34d" opacity=".6" rx="3"/>
+              <rect x="160" y="390" width="60"  height="6" fill="#fcd34d" opacity=".6" rx="3"/>
+              <rect x="240" y="390" width="60"  height="6" fill="#fcd34d" opacity=".6" rx="3"/>
+              <rect x="320" y="390" width="60"  height="6" fill="#fcd34d" opacity=".6" rx="3"/>
+              <rect x="400" y="390" width="60"  height="6" fill="#fcd34d" opacity=".6" rx="3"/>
+              <!-- Road divider -->
+              <rect x="0" y="368" width="480" height="3" fill="#fff" opacity=".15"/>
+              <!-- Car 1 (blue, main) -->
+              <g transform="translate(80,308)">
+                <rect x="0" y="20" width="120" height="52" fill="#1e3a8a" rx="8"/>
+                <rect x="15" y="5"  width="90"  height="36" fill="#2563eb" rx="6"/>
+                <rect x="20" y="8"  width="38"  height="26" fill="#bfdbfe" rx="3" opacity=".85"/>
+                <rect x="62" y="8"  width="38"  height="26" fill="#bfdbfe" rx="3" opacity=".85"/>
+                <circle cx="22"  cy="72" r="14" fill="#111827"/>
+                <circle cx="22"  cy="72" r="8"  fill="#374151"/>
+                <circle cx="98"  cy="72" r="14" fill="#111827"/>
+                <circle cx="98"  cy="72" r="8"  fill="#374151"/>
+                <!-- Headlights -->
+                <rect x="105" y="26" width="14" height="8" fill="#fcd34d" rx="2"/>
+                <rect x="1"   y="26" width="10" height="8" fill="#f87171" rx="2"/>
+                <!-- People silhouettes -->
+                <circle cx="42" cy="17" r="7" fill="#fbbf24" opacity=".9"/>
+                <circle cx="62" cy="17" r="7" fill="#f97316" opacity=".9"/>
+                <circle cx="82" cy="17" r="7" fill="#fbbf24" opacity=".7"/>
+              </g>
+              <!-- Car 2 (orange accent, far) -->
+              <g transform="translate(280,316)" opacity=".75">
+                <rect x="0" y="16" width="90" height="40" fill="#f97316" rx="6"/>
+                <rect x="10" y="4"  width="70" height="28" fill="#fed7aa" rx="5"/>
+                <rect x="14" y="7"  width="28" height="18" fill="#bfdbfe" rx="2" opacity=".8"/>
+                <rect x="46" y="7"  width="28" height="18" fill="#bfdbfe" rx="2" opacity=".8"/>
+                <circle cx="18" cy="56" r="11" fill="#111827"/>
+                <circle cx="18" cy="56" r="6"  fill="#374151"/>
+                <circle cx="72" cy="56" r="11" fill="#111827"/>
+                <circle cx="72" cy="56" r="6"  fill="#374151"/>
+                <rect x="79" y="20" width="10" height="6" fill="#fcd34d" rx="2"/>
+              </g>
+              <!-- Palm trees -->
+              <g transform="translate(435,230)">
+                <rect x="5" y="40" width="6" height="70" fill="#713f12" rx="2"/>
+                <ellipse cx="8" cy="38" rx="18" ry="10" fill="#15803d" opacity=".9" transform="rotate(-20,8,38)"/>
+                <ellipse cx="8" cy="35" rx="18" ry="8"  fill="#16a34a" opacity=".85" transform="rotate(15,8,35)"/>
+                <ellipse cx="8" cy="32" rx="14" ry="7"  fill="#22c55e" opacity=".8" transform="rotate(-10,8,32)"/>
+              </g>
+              <g transform="translate(5,255)" opacity=".7">
+                <rect x="5" y="40" width="5" height="55" fill="#713f12" rx="2"/>
+                <ellipse cx="7" cy="38" rx="14" ry="8" fill="#15803d" opacity=".9" transform="rotate(-15,7,38)"/>
+                <ellipse cx="7" cy="34" rx="14" ry="7" fill="#16a34a" opacity=".85" transform="rotate(10,7,34)"/>
+              </g>
+            </svg>
+            <div class="img-label" data-i18n="gallery.img1">Avenida de Luanda — Boleias diárias</div>
+          </div>
 
-    <!-- FOOTER -->
-    <footer class="bg-[#0b0f19] text-white/80 py-20">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-5 gap-y-12">
-            <!-- Logo + Social + Copyright -->
-            <div class="col-span-2">
-                <div class="flex items-center gap-x-3 mb-6">
-                    <div class="w-10 h-10 bg-[#ff6b00] rounded-2xl flex items-center justify-center">
-                        <i class="fa-solid fa-car-side"></i>
-                    </div>
-                    <span class="logo-font text-4xl font-bold">CARPOOL</span>
-                </div>
-                <p class="max-w-xs" data-i18n="footer-desc">Partilhar viagens. Conectar pessoas.</p>
-            </div>
-            <!-- Outras colunas de links -->
-            <div>
-                <h4 class="font-semibold mb-5 text-white" data-i18n="footer-company">Empresa</h4>
-                <div class="space-y-3 text-sm">
-                    <a href="#" class="block hover:text-white">Sobre nós</a>
-                    <a href="#" class="block hover:text-white">Carreiras</a>
-                </div>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-5 text-white" data-i18n="footer-product">Produto</h4>
-                <div class="space-y-3 text-sm">
-                    <a href="#" class="block hover:text-white">Tornar-se Condutor</a>
-                    <a href="#" class="block hover:text-white">Preços</a>
-                </div>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-5 text-white" data-i18n="footer-support">Suporte</h4>
-                <div class="space-y-3 text-sm">
-                    <a href="#" class="block hover:text-white">Centro de Ajuda</a>
-                    <a href="#" class="block hover:text-white">Segurança</a>
-                </div>
-            </div>
-        </div>
-        <div class="text-center text-xs mt-20 border-t border-white/10 pt-8">
-            © 2026 CARPOOL. Todos os direitos reservados.
-        </div>
-    </footer>
+          <!-- Card 2 — Passengers sharing car -->
+          <div class="img-card">
+            <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="carInt" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#1e3a8a"/>
+                  <stop offset="100%" stop-color="#0f172a"/>
+                </linearGradient>
+              </defs>
+              <rect width="300" height="220" fill="url(#carInt)"/>
+              <!-- Car interior background -->
+              <rect x="20" y="30" width="260" height="160" fill="#1e293b" rx="20"/>
+              <!-- Dashboard -->
+              <rect x="30" y="120" width="240" height="50" fill="#0f172a" rx="10"/>
+              <circle cx="90"  cy="145" r="20" fill="#1e3a8a" stroke="#3b82f6" stroke-width="2"/>
+              <circle cx="90"  cy="145" r="12" fill="#0f172a"/>
+              <line   x1="90" y1="133" x2="90" y2="142" stroke="#3b82f6" stroke-width="2"/>
+              <rect x="120" y="132" width="80" height="26" fill="#0f172a" rx="6"/>
+              <rect x="125" y="136" width="50" height="6" fill="#3b82f6" rx="3" opacity=".8"/>
+              <rect x="125" y="146" width="35" height="5" fill="#f97316" rx="3" opacity=".6"/>
+              <circle cx="230" cy="145" r="18" fill="#1e3a8a" stroke="#f97316" stroke-width="2"/>
+              <rect x="226" y="141" width="8" height="8" fill="#f97316" rx="1"/>
+              <!-- Windscreen -->
+              <rect x="45" y="38" width="210" height="72" fill="#bfdbfe" rx="14" opacity=".18"/>
+              <!-- Seats & people -->
+              <!-- Driver seat -->
+              <rect x="35"  y="70" width="55" height="55" fill="#1e40af" rx="8"/>
+              <circle cx="62" cy="62" r="18" fill="#f97316"/>
+              <rect   x="50" y="78" width="24" height="28" fill="#fbbf24" rx="4"/>
+              <!-- Passenger 1 -->
+              <rect x="100" y="70" width="50" height="55" fill="#1d4ed8" rx="8"/>
+              <circle cx="125" cy="62" r="18" fill="#fb923c"/>
+              <rect   x="113" y="78" width="24" height="28" fill="#fed7aa" rx="4"/>
+              <!-- Passenger 2 -->
+              <rect x="160" y="70" width="50" height="55" fill="#1e40af" rx="8"/>
+              <circle cx="185" cy="62" r="18" fill="#fbbf24"/>
+              <rect   x="173" y="78" width="24" height="28" fill="#f97316" rx="4"/>
+              <!-- Passenger 3 -->
+              <rect x="220" y="70" width="50" height="55" fill="#1d4ed8" rx="8"/>
+              <circle cx="245" cy="62" r="18" fill="#fde68a"/>
+              <rect   x="233" y="78" width="24" height="28" fill="#fbbf24" rx="4"/>
+              <!-- Smiles -->
+              <path d="M54 67 Q62 72 70 67" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+              <path d="M117 67 Q125 72 133 67" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+              <path d="M177 67 Q185 72 193 67" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+              <path d="M237 67 Q245 72 253 67" fill="none" stroke="#1e3a8a" stroke-width="2" stroke-linecap="round"/>
+              <!-- CARPOOL brand on dashboard -->
+              <text x="150" y="173" text-anchor="middle" font-size="9" fill="#f97316" font-family="Oswald,sans-serif" font-weight="700" letter-spacing="2">CARPOOL AO</text>
+            </svg>
+            <div class="img-label" data-i18n="gallery.img2">Partilha de boleia — 4 passageiros</div>
+          </div>
 
-    <!-- LOGIN MODAL -->
-    <div id="login-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[99999]">
-        <div class="neumorph max-w-md w-full mx-4 rounded-3xl p-10">
-            <h3 class="text-2xl font-semibold mb-8" data-i18n="modal-title">Bem-vindo de volta</h3>
-            <button onclick="hideLoginModal()" class="absolute top-6 right-6 text-3xl">&times;</button>
-            <!-- Formulário simplificado -->
-            <button onclick="fakeLogin()" class="w-full py-6 bg-[#ff6b00] text-white font-bold rounded-3xl">Entrar</button>
+          <!-- Card 3 — App / phone mockup -->
+          <div class="img-card">
+            <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="appBg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#f0f2f5"/>
+                  <stop offset="100%" stop-color="#dbeafe"/>
+                </linearGradient>
+              </defs>
+              <rect width="300" height="220" fill="url(#appBg)"/>
+              <!-- Phone frame -->
+              <rect x="90" y="10" width="120" height="200" fill="#1e3a8a" rx="18"/>
+              <rect x="96" y="22" width="108" height="176" fill="#f0f9ff" rx="12"/>
+              <!-- Status bar -->
+              <rect x="96" y="22" width="108" height="18" fill="#1e3a8a" rx="12"/>
+              <rect x="96" y="34" width="108" height="6"  fill="#1e3a8a"/>
+              <!-- App header -->
+              <rect x="96" y="40" width="108" height="30" fill="#1e3a8a"/>
+              <text x="150" y="60" text-anchor="middle" font-size="10" fill="#fff" font-family="Oswald,sans-serif" font-weight="700" letter-spacing="1">CARPOOL AO</text>
+              <!-- Map area -->
+              <rect x="100" y="72" width="100" height="68" fill="#dbeafe" rx="6"/>
+              <!-- Map roads -->
+              <line x1="100" y1="106" x2="200" y2="106" stroke="#93c5fd" stroke-width="3"/>
+              <line x1="150" y1="72"  x2="150" y2="140" stroke="#93c5fd" stroke-width="3"/>
+              <line x1="100" y1="90"  x2="130" y2="90"  stroke="#bfdbfe" stroke-width="2"/>
+              <line x1="170" y1="120" x2="200" y2="120" stroke="#bfdbfe" stroke-width="2"/>
+              <!-- Map pins -->
+              <circle cx="125" cy="95" r="7" fill="#f97316"/>
+              <circle cx="125" cy="95" r="4" fill="#fff"/>
+              <circle cx="175" cy="115" r="7" fill="#1e3a8a"/>
+              <circle cx="175" cy="115" r="4" fill="#fff"/>
+              <!-- Route line -->
+              <path d="M125 95 Q155 80 175 115" fill="none" stroke="#f97316" stroke-width="2.5" stroke-dasharray="4,3"/>
+              <!-- Car icon on route -->
+              <rect x="148" y="80" width="14" height="8" fill="#1e3a8a" rx="2"/>
+              <rect x="150" y="77" width="10" height="5" fill="#2563eb" rx="1"/>
+              <circle cx="151" cy="88" r="2.5" fill="#111"/>
+              <circle cx="160" cy="88" r="2.5" fill="#111"/>
+              <!-- Ride cards -->
+              <rect x="100" y="144" width="100" height="28" fill="#fff" rx="6" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))"/>
+              <circle cx="114" cy="158" r="8" fill="#f97316"/>
+              <rect x="126" y="151" width="45" height="5" fill="#1e3a8a" rx="2"/>
+              <rect x="126" y="160" width="30" height="4" fill="#93c5fd" rx="2"/>
+              <rect x="176" y="154" width="20" height="8" fill="#f97316" rx="4"/>
+              <text x="186" y="160" text-anchor="middle" font-size="6" fill="#fff" font-family="Oswald,sans-serif" font-weight="700">1200Kz</text>
+              <!-- Bottom nav -->
+              <rect x="96" y="176" width="108" height="22" fill="#fff" rx="0"/>
+              <rect x="96" y="190" width="108" height="8" fill="#fff" rx="12"/>
+              <circle cx="120" cy="185" r="5" fill="#1e3a8a"/>
+              <circle cx="150" cy="185" r="5" fill="#e2e8f0"/>
+              <circle cx="180" cy="185" r="5" fill="#e2e8f0"/>
+              <!-- Home indicator -->
+              <rect x="135" y="194" width="30" height="3" fill="#1e3a8a" rx="2"/>
+            </svg>
+            <div class="img-label" data-i18n="gallery.img3">App CARPOOL — Mapa de rotas</div>
+          </div>
+
+          <!-- Card 4 — Road/highway Angola -->
+          <div class="img-card">
+            <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="skyRoad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#fb923c"/>
+                  <stop offset="60%" stop-color="#fde68a"/>
+                  <stop offset="100%" stop-color="#ffedd5"/>
+                </linearGradient>
+                <linearGradient id="grassAO" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#166534"/>
+                  <stop offset="100%" stop-color="#14532d"/>
+                </linearGradient>
+              </defs>
+              <rect width="300" height="180" fill="url(#skyRoad)"/>
+              <!-- Horizon grass -->
+              <rect x="0" y="90" width="300" height="90" fill="url(#grassAO)"/>
+              <!-- Road -->
+              <polygon points="90,90 210,90 300,180 0,180" fill="#374151"/>
+              <!-- Road markings perspective -->
+              <line x1="150" y1="92"  x2="145" y2="110" stroke="#fcd34d" stroke-width="3" opacity=".8"/>
+              <line x1="150" y1="116" x2="142" y2="136" stroke="#fcd34d" stroke-width="3" opacity=".7"/>
+              <line x1="150" y1="142" x2="138" y2="165" stroke="#fcd34d" stroke-width="3" opacity=".6"/>
+              <!-- Car (perspective) -->
+              <g transform="translate(108,100)">
+                <rect x="0" y="12" width="80" height="45" fill="#1e3a8a" rx="6"/>
+                <rect x="10" y="3" width="60" height="28" fill="#2563eb" rx="5"/>
+                <rect x="13" y="6" width="25" height="18" fill="#bfdbfe" rx="2" opacity=".8"/>
+                <rect x="42" y="6" width="25" height="18" fill="#bfdbfe" rx="2" opacity=".8"/>
+                <circle cx="14" cy="57" r="12" fill="#111827"/>
+                <circle cx="14" cy="57" r="7"  fill="#374151"/>
+                <circle cx="66" cy="57" r="12" fill="#111827"/>
+                <circle cx="66" cy="57" r="7"  fill="#374151"/>
+                <rect   x="69" y="17" width="10" height="6" fill="#fcd34d" rx="2"/>
+                <!-- CARPOOL label on car -->
+                <text x="40" y="40" text-anchor="middle" font-size="6" fill="#fff" font-family="Oswald,sans-serif" font-weight="700" opacity=".8">CARPOOL</text>
+              </g>
+              <!-- Baobab tree silhouette -->
+              <g transform="translate(10,40)">
+                <rect x="10" y="28" width="12" height="50" fill="#713f12" rx="3"/>
+                <ellipse cx="16" cy="26" rx="22" ry="16" fill="#15803d" opacity=".9"/>
+                <ellipse cx="6"  cy="30" rx="16" ry="10" fill="#166534" opacity=".8"/>
+                <ellipse cx="28" cy="30" rx="14" ry="10" fill="#16a34a" opacity=".8"/>
+              </g>
+              <!-- Sun -->
+              <circle cx="260" cy="40" r="30" fill="#fbbf24" opacity=".7"/>
+              <circle cx="260" cy="40" r="40" fill="#fde68a" opacity=".25"/>
+              <!-- Birds -->
+              <path d="M200 25 Q205 20 210 25" fill="none" stroke="#1e3a8a" stroke-width="1.5"/>
+              <path d="M218 18 Q223 13 228 18" fill="none" stroke="#1e3a8a" stroke-width="1.5"/>
+            </svg>
+            <div class="img-label" data-i18n="gallery.img4">Estrada nacional — Viagem entre cidades</div>
+          </div>
+
+          <!-- Card 5 — Multicaixa / payment -->
+          <div class="img-card">
+            <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="payBg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#0f172a"/>
+                  <stop offset="100%" stop-color="#1e3a8a"/>
+                </linearGradient>
+              </defs>
+              <rect width="300" height="180" fill="url(#payBg)"/>
+              <!-- Card 1 (back) -->
+              <rect x="40" y="50" width="170" height="105" fill="#1e40af" rx="14" transform="rotate(-6,125,102)"/>
+              <!-- Card 2 (front) -->
+              <rect x="55" y="45" width="185" height="110" fill="#1d4ed8" rx="14" transform="rotate(3,147,100)"/>
+              <!-- Chip -->
+              <rect x="80" y="70" width="30" height="22" fill="#fbbf24" rx="4"/>
+              <line x1="86" y1="70"  x2="86"  y2="92"  stroke="#f59e0b" stroke-width="1"/>
+              <line x1="92" y1="70"  x2="92"  y2="92"  stroke="#f59e0b" stroke-width="1"/>
+              <line x1="98" y1="70"  x2="98"  y2="92"  stroke="#f59e0b" stroke-width="1"/>
+              <line x1="80" y1="81"  x2="110" y2="81"  stroke="#f59e0b" stroke-width="1"/>
+              <!-- Contactless -->
+              <path d="M118 76 Q126 81 118 86" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+              <path d="M122 71 Q134 81 122 91" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+              <!-- Card number dots -->
+              <circle cx="80"  cy="108" r="3" fill="#fff" opacity=".6"/>
+              <circle cx="88"  cy="108" r="3" fill="#fff" opacity=".6"/>
+              <circle cx="96"  cy="108" r="3" fill="#fff" opacity=".6"/>
+              <circle cx="104" cy="108" r="3" fill="#fff" opacity=".6"/>
+              <circle cx="116" cy="108" r="3" fill="#fff" opacity=".6"/>
+              <circle cx="124" cy="108" r="3" fill="#fff" opacity=".6"/>
+              <circle cx="132" cy="108" r="3" fill="#fff" opacity=".6"/>
+              <circle cx="140" cy="108" r="3" fill="#fff" opacity=".6"/>
+              <rect x="150" y="104" width="40" height="8" fill="#fff" rx="2" opacity=".8"/>
+              <!-- MULTICAIXA EXPRESS label -->
+              <text x="155" y="90" font-size="8" fill="#fff" font-family="Oswald,sans-serif" font-weight="700" letter-spacing="1" opacity=".9">MULTICAIXA</text>
+              <text x="155" y="101" font-size="7" fill="#f97316" font-family="Oswald,sans-serif" font-weight="600" letter-spacing="1">EXPRESS</text>
+              <!-- Right side: price info -->
+              <rect x="248" y="40" width="42" height="100" fill="#1e3a8a" rx="10" opacity=".5"/>
+              <text x="269" y="62"  text-anchor="middle" font-size="7"  fill="#93c5fd" font-family="Oswald,sans-serif">CUSTO</text>
+              <text x="269" y="75"  text-anchor="middle" font-size="11" fill="#fff"    font-family="Oswald,sans-serif" font-weight="700">1200</text>
+              <text x="269" y="85"  text-anchor="middle" font-size="7"  fill="#f97316" font-family="Oswald,sans-serif" font-weight="700">Kz</text>
+              <rect x="255" y="92" width="28" height="2" fill="#3b82f6" rx="1" opacity=".5"/>
+              <text x="269" y="108" text-anchor="middle" font-size="7"  fill="#93c5fd" font-family="Oswald,sans-serif">POR LUGAR</text>
+              <!-- CARPOOL -->
+              <text x="150" y="168" text-anchor="middle" font-size="9" fill="#f97316" font-family="Oswald,sans-serif" font-weight="700" letter-spacing="2">CARPOOL AO</text>
+            </svg>
+            <div class="img-label" data-i18n="gallery.img5">Pagamento via Multicaixa Express</div>
+          </div>
+
         </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section class="timeline" id="how">
+        <h2 class="section-title fade-in" data-i18n="how.title">Como funciona</h2>
+        <p class="section-subtitle fade-in" data-i18n="how.subtitle">Em apenas quatro passos simples está pronto a partilhar.</p>
+        <div class="timeline-steps">
+          <div class="timeline-step fade-in">
+            <div class="step-bubble">1</div>
+            <span class="step-title" data-i18n="how.s1.title">Registe-se</span>
+            <span class="step-desc" data-i18n="how.s1.desc">Crie a sua conta gratuita em menos de 2 minutos com email ou conta social.</span>
+          </div>
+          <div class="timeline-step fade-in" style="transition-delay:.1s">
+            <div class="step-bubble">2</div>
+            <span class="step-title" data-i18n="how.s2.title">Defina a Rota</span>
+            <span class="step-desc" data-i18n="how.s2.desc">Indique o ponto de partida, destino e horário preferido para a sua viagem.</span>
+          </div>
+          <div class="timeline-step fade-in" style="transition-delay:.2s">
+            <div class="step-bubble">3</div>
+            <span class="step-title" data-i18n="how.s3.title">Combine</span>
+            <span class="step-desc" data-i18n="how.s3.desc">O sistema encontra as melhores correspondências e envia-lhe sugestões personalizadas.</span>
+          </div>
+          <div class="timeline-step fade-in" style="transition-delay:.3s">
+            <div class="step-bubble">4</div>
+            <span class="step-title" data-i18n="how.s4.title">Viaje e Avalie</span>
+            <span class="step-desc" data-i18n="how.s4.desc">Confirme a viagem, avalie o seu parceiro e contribua para uma comunidade de confiança.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- TESTIMONIALS -->
+      <section class="testimonials" id="testimonials">
+        <h2 class="section-title fade-in" data-i18n="test.title">O que dizem os nossos utilizadores</h2>
+        <p class="section-subtitle fade-in" data-i18n="test.subtitle">Mais de 48.000 pessoas já confiam no CARPOOL diariamente.</p>
+        <div class="testimonials-grid">
+          <div class="testimonial-card fade-in">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text" data-i18n="test.t1.text">"O CARPOOL transformou completamente a minha deslocação diária para o trabalho em Luanda. Poupa-me cerca de 25.000 Kz por mês em combustível e conheci pessoas incríveis no trajeto."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">AF</div>
+              <div>
+                <div class="author-name" data-i18n="test.t1.name">Amara Fernandes</div>
+                <div class="author-role" data-i18n="test.t1.role">Engenheira de Software, Luanda</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card fade-in" style="transition-delay:.1s">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text" data-i18n="test.t2.text">"Como condutor, rentabilizo as minhas viagens entre o Talatona e o Kilamba. A plataforma é extremamente intuitiva e o pagamento via Multicaixa Express é impecável."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">DC</div>
+              <div>
+                <div class="author-name" data-i18n="test.t2.name">Domingos Carvalho</div>
+                <div class="author-role" data-i18n="test.t2.role">Gestor de Projetos, Luanda</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card fade-in" style="transition-delay:.05s">
+            <div class="stars">★★★★☆</div>
+            <p class="testimonial-text" data-i18n="test.t3.text">"Uso o CARPOOL há 6 meses em Huambo e a fiabilidade é impressionante. Os perfis verificados dão-me confiança total, especialmente como mulher a viajar sozinha."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">ML</div>
+              <div>
+                <div class="author-name" data-i18n="test.t3.name">Maria Lopes</div>
+                <div class="author-role" data-i18n="test.t3.role">Médica, Huambo</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card fade-in" style="transition-delay:.15s">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text" data-i18n="test.t4.text">"A funcionalidade de rastreio em tempo real é o que me vendeu. A minha família pode sempre saber onde estou nas viagens entre Benguela e Lobito. Segurança total."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">JN</div>
+              <div>
+                <div class="author-name" data-i18n="test.t4.name">João Nguyen</div>
+                <div class="author-role" data-i18n="test.t4.role">Estudante Universitário, Benguela</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ════ SIDEBAR COL ══════════════════════════════════════════ -->
+    <aside class="sidebar-col" id="sidebar-top">
+
+      <!-- SEARCH WIDGET -->
+      <div class="sidebar-widget" id="sidebar-search">
+        <div class="widget-title">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span data-i18n="sb.search.title">Pesquisar Boleia</span>
+        </div>
+        <label class="form-label" data-i18n="sb.search.origin">Origem</label>
+        <input type="text" class="neu-input" data-i18n-placeholder="sb.search.origin_ph" placeholder="De onde parte?" />
+        <label class="form-label" data-i18n="sb.search.dest">Destino</label>
+        <input type="text" class="neu-input" data-i18n-placeholder="sb.search.dest_ph" placeholder="Para onde vai?" />
+        <label class="form-label" data-i18n="sb.search.date">Data</label>
+        <input type="date" class="neu-input" />
+        <label class="form-label" data-i18n="sb.search.seats">Lugares</label>
+        <select class="neu-input">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+        <button class="btn-full" id="btn-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span data-i18n="sb.search.btn">Pesquisar</span>
+        </button>
+        <div id="search-result" class="text-xs mt-2" style="color:var(--muted);min-height:16px;"></div>
+      </div>
+    </aside>
+    <!-- ════ END SIDEBAR ══════════════════════════════════════════ -->
+
+  </div>
+  <!-- ─── END PAGE GRID ──────────────────────────────────────────── -->
+
+  <!-- ─── FOOTER ────────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">CAR<span>POOL</span></div>
+        <p class="footer-desc" data-i18n="footer.desc">A plataforma de mobilidade partilhada que liga pessoas, poupa dinheiro e protege o planeta. Junte-se a mais de 48.000 utilizadores ativos.</p>
+      </div>
+      <div>
+        <div class="footer-col-title" data-i18n="footer.col1">Plataforma</div>
+        <ul class="footer-links">
+          <li><a href="#" data-i18n="footer.f1">Como Funciona</a></li>
+          <li><a href="#" data-i18n="footer.f2">Preços</a></li>
+          <li><a href="#" data-i18n="footer.f3">Segurança</a></li>
+          <li><a href="#" data-i18n="footer.f4">App Móvel</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title" data-i18n="footer.col2">Empresa</div>
+        <ul class="footer-links">
+          <li><a href="#" data-i18n="footer.c1">Sobre Nós</a></li>
+          <li><a href="#" data-i18n="footer.c2">Blog</a></li>
+          <li><a href="#" data-i18n="footer.c3">Imprensa</a></li>
+          <li><a href="#" data-i18n="footer.c4">Carreiras</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title" data-i18n="footer.col3">Suporte</div>
+        <ul class="footer-links">
+          <li><a href="#" data-i18n="footer.s1">Centro de Ajuda</a></li>
+          <li><a href="#" data-i18n="footer.s2">Contacto</a></li>
+          <li><a href="#" data-i18n="footer.s3">Privacidade</a></li>
+          <li><a href="#" data-i18n="footer.s4">Termos</a></li>
+        </ul>
+      </div>
     </div>
+    <div class="footer-bottom">
+      <span class="footer-copy" data-i18n="footer.copy">© 2025 CARPOOL Angola Lda. Todos os direitos reservados.</span>
+      <div class="footer-socials">
+        <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#" class="social-icon"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="#" class="social-icon"><i class="fa-brands fa-facebook"></i></a>
+      </div>
+    </div>
+  </footer>
 
-    <script>
-        // ==================== I18N DICTIONARY ====================
-        const translations = {
-            pt: {
-                "nav-how": "Como Funciona",
-                "nav-features": "Vantagens",
-                "nav-testimonials": "Depoimentos",
-                "nav-signin": "Entrar",
-                "hero-title": "Viagens partilhadas.<br>Economia real.",
-                "hero-subtitle": "Encontre boleia ou partilhe o seu carro com pessoas verificadas.",
-                "hero-live": "+12.450 viagens hoje",
-                "hero-cta": "Procurar Viagem",
-                "form-title": "Para onde vamos?",
-                "form-from": "DE",
-                "form-to": "PARA",
-                "form-date": "DATA",
-                "form-seats": "LUGARES",
-                "form-button": "Encontrar Boleias",
-                "features-badge": "PORQUÊ ESCOLHER-NOS",
-                "features-title": "Viagens mais inteligentes",
-                "feature1-title": "Economia",
-                "feature1-desc": "Poupe até 70% comparado com viagens individuais.",
-                "feature2-title": "Segurança",
-                "feature2-desc": "Perfis verificados, avaliações e suporte 24/7.",
-                "feature3-title": "Comunidade",
-                "feature3-desc": "Conheça novas pessoas em cada viagem.",
-                "how-title": "Em 3 passos simples",
-                "step1": "Pesquise",
-                "step2": "Reserve",
-                "step3": "Viaje",
-                "testimonials-title": "O que dizem os nossos utilizadores",
-                "app-title": "A viagem começa no seu bolso",
-                "app-desc": "Descarregue a app CARPOOL e viaje com mais liberdade.",
-                "footer-desc": "Partilhar viagens. Conectar pessoas.",
-                "modal-title": "Bem-vindo de volta"
-            },
-            en: {
-                "nav-how": "How it Works",
-                "nav-features": "Features",
-                "nav-testimonials": "Testimonials",
-                "nav-signin": "Sign In",
-                "hero-title": "Shared rides.<br>Real savings.",
-                "hero-subtitle": "Find a ride or share your car with verified people.",
-                "hero-live": "+12,450 trips today",
-                "hero-cta": "Search Ride",
-                "form-title": "Where are we going?",
-                "form-from": "FROM",
-                "form-to": "TO",
-                "form-date": "DATE",
-                "form-seats": "SEATS",
-                "form-button": "Find Rides",
-                "features-badge": "WHY CHOOSE US",
-                "features-title": "Smarter Journeys",
-                "feature1-title": "Savings",
-                "feature1-desc": "Save up to 70% compared to solo trips.",
-                "feature2-title": "Safety",
-                "feature2-desc": "Verified profiles, ratings & 24/7 support.",
-                "feature3-title": "Community",
-                "feature3-desc": "Meet amazing people on every trip.",
-                "how-title": "In 3 Simple Steps",
-                "step1": "Search",
-                "step2": "Book",
-                "step3": "Travel",
-                "testimonials-title": "What our users say",
-                "app-title": "The journey starts in your pocket",
-                "app-desc": "Download the CARPOOL app and travel with freedom.",
-                "footer-desc": "Share rides. Connect people.",
-                "modal-title": "Welcome back"
-            }
-        };
+  <!-- ─── JAVASCRIPT ─────────────────────────────────────────────── -->
+  <script src="<?= url_asset("js/home.js") ?>">
+</script>
 
-        let currentLang = 'pt';
-
-        function toggleLanguage() {
-            currentLang = currentLang === 'pt' ? 'en' : 'pt';
-            document.getElementById('lang-text').textContent = currentLang.toUpperCase();
-            
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[currentLang][key]) {
-                    el.innerHTML = translations[currentLang][key];
-                }
-            });
-        }
-
-        // ==================== THEME TOGGLE ====================
-        function toggleTheme() {
-            const html = document.documentElement;
-            html.classList.toggle('dark');
-            
-            const icon = document.getElementById('theme-icon');
-            if (html.classList.contains('dark')) {
-                icon.classList.replace('fa-moon', 'fa-sun');
-                localStorage.theme = 'dark';
-            } else {
-                icon.classList.replace('fa-sun', 'fa-moon');
-                localStorage.theme = 'light';
-            }
-        }
-
-        function initTheme() {
-            if (localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-                document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
-            }
-        }
-
-        // Fake functions
-        function performSearch() {
-            alert(currentLang === 'pt' ? 'Procurando viagens...' : 'Searching rides...');
-        }
-        function showLoginModal() {
-            document.getElementById('login-modal').classList.remove('hidden');
-            document.getElementById('login-modal').classList.add('flex');
-        }
-        function hideLoginModal() {
-            document.getElementById('login-modal').classList.add('hidden');
-            document.getElementById('login-modal').classList.remove('flex');
-        }
-        function fakeLogin() {
-            hideLoginModal();
-            setTimeout(() => alert(currentLang === 'pt' ? 'Login simulado com sucesso!' : 'Login successful!'), 300);
-        }
-
-        // Parallax Hero
-        window.addEventListener('scroll', () => {
-            const hero = document.getElementById('hero');
-            if (hero) {
-                const scroll = window.scrollY;
-                hero.style.backgroundPositionY = `${scroll * 0.4}px`;
-            }
-        });
-
-        // Initialize
-        $(document).ready(() => {
-            initTheme();
-            $('#preloader').fadeOut(900);
-            
-            console.log('%cCARPOOL Landing Page carregada com sucesso ✨', 'color:#ff6b00; font-family:monospace; font-size:13px');
-        });
-    </script>
 </body>
 </html>
