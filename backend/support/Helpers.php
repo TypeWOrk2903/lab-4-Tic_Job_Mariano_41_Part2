@@ -15,20 +15,68 @@ if (!function_exists('frontend_path')) {
         return $base . '/' . ltrim($subDir, '/');
     }
 }
-if (!function_exists('assets')) {
-    /**
-     * Gera a URL pública correta para os ficheiros de assets (CSS, JS, Imagens).
-     * 
-     * @param string $subpasta A pasta principal dentro do frontend (ex: 'web' ou 'adm')
-     * @param string $file O caminho do arquivo a partir dali (ex: 'css/style.css' ou 'js/home.js')
-     * @return string URL completa para o navegador
-     */
-    function asset(string $subpasta, string $file): string
-    {
-        // Define a URL base do teu projeto local
-        $baseUrl = 'http://localhost:8000'; 
-        
-        // Monta a URL pública: http://localhost:8000/frontend/web/assets/css/style.css
-        return $baseUrl . '/frontend/' . trim($subpasta, '/') . '/assets/' . ltrim($file, '/');
+
+function role():array{
+    return ["Passageiro"=>"passageiro","Motorista"=>"motorista"];
+}
+function gender():array{
+    return ["M"=>"Masculino","F"=>"Feminino"];
+}
+
+function setFlash($key, $message)
+{
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+
+    // Se for um array de mensagens (erros por exemplo)
+    if (is_array($message)) {
+        $_SESSION['flash'][$key] = $message;
+    } else {
+        $_SESSION['flash'][$key] = [$message];
+    }
+}
+
+/**
+ * Obtém as mensagens flash e remove-as automaticamente
+ */
+function getFlash($key)
+{
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+
+    if (isset($_SESSION['flash'][$key])) {
+        $messages = $_SESSION['flash'][$key];
+        unset($_SESSION['flash'][$key]); // Remove após ler (comportamento flash)
+        return $messages;
+    }
+
+    return [];
+}
+
+/**
+ * Verifica se existe mensagem flash
+ */
+function hasFlash($key)
+{
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+    return isset($_SESSION['flash'][$key]) && !empty($_SESSION['flash'][$key]);
+}
+
+/**
+ * Redireciona para uma URL
+ */
+function redirect($url)
+{
+    if (!headers_sent()) {
+        header("Location: " . url($url));
+        exit();
+    } else {
+        // Fallback se headers já foram enviados
+        echo '<script>window.location.href = "' . url($url) . '";</script>';
+        exit();
     }
 }

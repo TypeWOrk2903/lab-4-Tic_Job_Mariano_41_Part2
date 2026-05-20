@@ -1,8 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Backend\App\Controller;
+
+use Backend\support\Session;
 
 class WebController
 {
@@ -24,7 +24,11 @@ class WebController
         extract($data, EXTR_SKIP);
         require $viewPath;
     }
-
+     private function isLoggedIn(): bool
+    {
+        $s=new Session();
+        return $s->isLoggedIn();
+    }
     public function index(): void
     {
         $this->view('home', [

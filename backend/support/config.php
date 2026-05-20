@@ -34,7 +34,7 @@ define('BASE_URL', 'http://localhost/carpool/');
 function url(string $path = ''): string {
     // Remove barras duplicadas no início se o usuário digitá-las por engano
     $path = ltrim($path, '/');
-    return BASE_URL . '/' . $path;
+    return BASE_URL . $path;
 }
 
 /**Configuração das Pastas na view */
@@ -42,3 +42,19 @@ define("CONF_VIEW_PATH", dirname(__DIR__) . "/frontend");
 define("BASE_DIR", dirname(__DIR__, 2));
 define("CONF_VIEW_WEB", CONF_VIEW_PATH . "/web");
 define("CONF_VIEW_ADM", CONF_VIEW_PATH . "/adm");
+define("CONF_URL_THEME_ASSETS_WEb", BASE_URL . "/frontend/web/assets");
+define("CONF_URL_THEME_ASSETS_ADM", BASE_URL . "/frontend/adm");
+/**
+ * FUNÇÃO AUXILIAR DE RENDERIZAÇÃO (Otimização)
+ * Use esta função para carregar arquivos do tema de forma limpa
+ */
+function url_asset(string $path): string {
+    return CONF_URL_THEME_ASSETS_WEb . "/" . ltrim($path, "/");
+}
+/**
+ * FUNÇÃO AUXILIAR DE RENDERIZAÇÃO (Otimização)
+ * Use esta função para carregar arquivos do tema de forma limpa
+ */
+function url_asset_adm(string $path): string {
+    return CONF_URL_THEME_ASSETS_ADM . "/" . ltrim($path, "/");
+}
