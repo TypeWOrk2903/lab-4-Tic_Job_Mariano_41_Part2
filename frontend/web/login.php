@@ -33,9 +33,9 @@
     </div>
 
     <!-- Theme Toggle Button - Posicionado no canto superior direito -->
-    <button onclick="toggleTheme()" 
-            id="theme-toggle"
-            class="fixed top-6 right-6 z-50 w-11 h-11 neumorph rounded-2xl flex items-center justify-center text-xl hover:scale-110 transition-all shadow-lg">
+    <button onclick="toggleTheme()"
+        id="theme-toggle"
+        class="fixed top-6 right-6 z-50 w-11 h-11 neumorph rounded-2xl flex items-center justify-center text-xl hover:scale-110 transition-all shadow-lg">
         <i id="theme-icon" class="fa-solid fa-moon"></i>
     </button>
 
@@ -52,11 +52,15 @@
                 <p class="text-[var(--muted)]" data-i18n="register-subtitle">Junte-se à comunidade CARPOOL</p>
             </div>
 
-            <form id="registerForm" method="post"   action="<?= url("login/") ?>"    class="space-y-5">
-                <input type="email" name="email"  id="email" placeholder="Email" required class="neu-input">
-                <input type="password" id="password" name="password"  placeholder="Palavra-passe" required class="neu-input">
-
-                <button type="submit"  name="register-button"  class="btn-primary w-full text-base">
+            <form id="registerForm" method="post" action="<?= url("login/") ?>" class="space-y-5">
+                <input type="email" name="email" id="email" placeholder="Email" required class="neu-input">
+                <input type="password" id="password" name="password" placeholder="Palavra-passe" required class="neu-input">
+                    <a href="<?= url("/forget") ?>"
+                        class="text-xs hover:underline"
+                        style="color:var(--color-cyan)" data-i18n="login.forgot">
+                        <i class="fa-solid fa-key fa-xs"></i> Esqueci a senha
+                    </a>
+                <button type="submit" name="register-button" class="btn-primary w-full text-base">
                     <span data-i18n="register-button">Entra Minha Conta</span>
                 </button>
             </form>
@@ -96,7 +100,7 @@
             });
         }
 
-     
+
 
         // ==================== FUNÇÃO DE TEMA (DARK / LIGHT) ====================
         function toggleTheme() {
@@ -115,7 +119,7 @@
 
         // ==================== INICIALIZAÇÃO AUTOMÁTICA ====================
         function initTheme() {
-            if (localStorage.theme === 'dark' || 
+            if (localStorage.theme === 'dark' ||
                 (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.classList.add('dark');
                 document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
@@ -129,4 +133,5 @@
         });
     </script>
 </body>
+
 </html>

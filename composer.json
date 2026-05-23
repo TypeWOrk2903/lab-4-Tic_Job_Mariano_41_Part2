@@ -17,10 +17,7 @@
         }
     ],
     "require": {
-        "bramus/router": "~1.6"
-    },
-    "config": {
-        "optimize-autoloader": true,
-        "sort-packages": true
+        "bramus/router": "~1.5",
+        "pecee/simple-router": "^5.4"
     }
 }

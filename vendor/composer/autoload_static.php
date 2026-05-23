@@ -12,6 +12,10 @@ class ComposerStaticInit47fb9c6bbad46c138c643c79010a346b
     );
 
     public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'Pecee\\' => 6,
+        ),
         'B' => 
         array (
             'Backend\\' => 8,
@@ -19,6 +23,10 @@ class ComposerStaticInit47fb9c6bbad46c138c643c79010a346b
     );
 
     public static $prefixDirsPsr4 = array (
+        'Pecee\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pecee/simple-router/src/Pecee',
+        ),
         'Backend\\' => 
         array (
             0 => __DIR__ . '/../..' . '/backend',
@@ -36,10 +44,6 @@ class ComposerStaticInit47fb9c6bbad46c138c643c79010a346b
     );
 
     public static $classMap = array (
-        'Backend\\database\\User' => __DIR__ . '/../..' . '/backend/database/User.php',
-        'Backend\\support\\Model' => __DIR__ . '/../..' . '/backend/support/Model.php',
-        'Backend\\support\\Session' => __DIR__ . '/../..' . '/backend/support/Session.php',
-        'Bramus\\Router\\Router' => __DIR__ . '/..' . '/bramus/router/src/Bramus/Router/Router.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 

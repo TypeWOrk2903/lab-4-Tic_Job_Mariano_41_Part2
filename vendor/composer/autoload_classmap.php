@@ -6,9 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Backend\\database\\User' => $baseDir . '/backend/database/User.php',
-    'Backend\\support\\Model' => $baseDir . '/backend/support/Model.php',
-    'Backend\\support\\Session' => $baseDir . '/backend/support/Session.php',
-    'Bramus\\Router\\Router' => $vendorDir . '/bramus/router/src/Bramus/Router/Router.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
 );

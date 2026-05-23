@@ -117,9 +117,9 @@ private function session(): Session
             if ($user['role']==="Passageiro") {
                redirect('/'); 
             }elseif($user['role']==="Motorista"){
-                redirect('painel-controle'); 
+                redirect('/motorista/'); 
             }elseif($user['role']==="Admin"){
-                redirect("/dasboard-motorista");
+                redirect("/admin/");
             }
         } else {
             // Falha no login

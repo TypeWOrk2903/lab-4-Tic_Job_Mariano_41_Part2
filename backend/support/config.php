@@ -7,7 +7,18 @@ define('DB_HOST', 'localhost');
 define('DB_NAME', 'carpool_db');
 define('DB_USER', 'root');
 define('DB_PASS', '');
+// config.php (exemplo)
 
+define("BASE_PATH", 
+    (isset($_SERVER["SCRIPT_NAME"]) ? dirname($_SERVER["SCRIPT_NAME"]) : 
+    (isset($_SERVER["PHP_SELF"]) ? dirname($_SERVER["PHP_SELF"]) : 
+    (isset($_SERVER["ORIG_SCRIPT_NAME"]) ? dirname($_SERVER["ORIG_SCRIPT_NAME"]) : 
+    "")))
+);
+
+define("URL_SITE", BASE_PATH . "/");
+define("URL_ADMIN", BASE_PATH . "/admin/");
+// ... outras constantes
 // ==============================================================================
 // 2. CONFIGURAÇÃO DE TIMEZONE (Fuso Horário)
 // ==============================================================================
