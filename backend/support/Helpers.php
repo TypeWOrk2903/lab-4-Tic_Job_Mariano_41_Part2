@@ -80,3 +80,22 @@ function redirect($url)
         exit();
     }
 }
+/**
+ * Retorna array de quantidade de lugares para carona
+ * 
+ * @param int $maximo Quantidade máxima de lugares (padrão 6)
+ * @return array
+ */
+function getOpcoesLugaresCarona(int $maximo = 6): array
+{
+    $opcoes = [];
+    
+    for ($i = 1; $i <= $maximo; $i++) {
+        $opcoes[] = [
+            'value' => $i,
+            'label' => $i
+        ];
+    }
+
+    return $opcoes;
+}

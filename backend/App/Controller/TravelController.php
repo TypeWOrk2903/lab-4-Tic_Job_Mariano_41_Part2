@@ -1,11 +1,12 @@
-<?php
+<?php 
 
 namespace Backend\App\Controller;
 
 use Backend\support\Session;
 
-class WebController
+class TravelController
 {
+    
     private function view(string $template, array $data = []): void
     {
         // Usa diretamente a constante CONF_VIEW_WEB que foi declarada via define()
@@ -29,11 +30,13 @@ class WebController
         $s=new Session();
         return $s->isLoggedIn();
     }
-    public function index(): void
+
+    public function search()
     {
-        $this->view('home', [
-            'pageTitle' => 'Carpool — Boleias Partilhadas'
-        ]);
+        $origin      = $_GET['origin'] ?? '';
+        $destination = $_GET['destination'] ?? '';
+        $date        = $_GET['date'] ?? date('Y-m-d');
+        
+        $this->view("pesquisartaxi",["pageTitle"=>"CARPOOL Angola — Viagens Encontradas","IsloggeIn"=>$this->isLoggedIn()]);
     }
-    
 }
