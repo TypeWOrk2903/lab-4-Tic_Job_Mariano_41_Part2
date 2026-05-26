@@ -359,7 +359,7 @@
   </div>
 </div>
 
-<script>
+<script src="<?= url_asset_adm("viewdriver/assets/js/script.js") ?>">
 </script>
 </body>
 </html>
