@@ -46,7 +46,7 @@
 
   <!-- ─── NAVBAR ────────────────────────────────────────────────── -->
   <nav class="navbar">
-    <a href="#" class="nav-brand">CAR<span>POOL</span></a>
+    <a href="<?=url("/")?>" class="nav-brand">CAR<span>POOL</span></a>
     <ul class="nav-links">
       <li><a href="#features"   data-i18n="nav.features">Funcionalidades</a></li>
       <li><a href="#how"        data-i18n="nav.how">Como Funciona</a></li>
