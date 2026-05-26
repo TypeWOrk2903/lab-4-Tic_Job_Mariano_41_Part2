@@ -573,14 +573,14 @@
           <span data-i18n="sb.search.title">Pesquisar Boleia</span>
         </div>
         <form action="<?= url("/pesquisar-viagens") ?>" method="post">
-          <label class="form-label" data-i18n="sb.search.origin">Origem</label>
-          <input type="text" class="neu-input" data-i18n-placeholder="sb.search.origin_ph" placeholder="De onde parte?" />
+          <label class="form-label"   data-i18n="sb.search.origin">Origem</label>
+          <input type="text" name="origin"  class="neu-input" data-i18n-placeholder="sb.search.origin_ph" placeholder="De onde parte?"  required/>
           <label class="form-label" data-i18n="sb.search.dest">Destino</label>
-          <input type="text" class="neu-input" data-i18n-placeholder="sb.search.dest_ph" placeholder="Para onde vai?" />
+          <input type="text" name="destination" class="neu-input" data-i18n-placeholder="sb.search.dest_ph" placeholder="Para onde vai?"  required  />
           <label class="form-label" data-i18n="sb.search.date">Data</label>
-          <input type="date" class="neu-input" />
+          <input type="date" name="date"  class="neu-input"  required />
           <label class="form-label" data-i18n="sb.search.seats">Lugares</label>
-          <select class="neu-input">
+          <select class="neu-input" name="seats"  required>
             <option value="">Selecione...</option>
             <?php
             $lugares = getOpcoesLugaresCarona(6); // ou 8, 10, etc
