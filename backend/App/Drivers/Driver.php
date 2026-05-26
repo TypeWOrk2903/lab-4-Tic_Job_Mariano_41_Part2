@@ -2,15 +2,23 @@
 
 namespace Backend\App\Drivers;
 
+use Backend\database\DriverModel;
+use Backend\support\Session;
+
 /**
  * Driver
  * Classe do Motorista
  * @Job Mariano
  * Projecto de sistema de caronas
  */
-class Driver 
+class Driver
 {
-    
+    private DriverModel $driverModel;
+
+    public function __construct()
+    {
+        $this->driverModel = new DriverModel();
+    }
     private function view(string $template, array $data = []): void
     {
         // Usa diretamente a constante CONF_VIEW_WEB que foi declarada via define()
@@ -29,7 +37,43 @@ class Driver
         extract($data, EXTR_SKIP);
         require $viewPath;
     }
-    public function index() : void {
-        $this->view("homedriver",["pageTitle"=>"CARPOOL Angola — Painel do Motorista"]);
+
+    private function isLoggedIn(): bool
+    {
+        $s = new Session();
+        return $s->isLoggedIn();
+    }
+    public function index(): void
+    {
+        $s = new Session();
+        if (!$this->isLoggedIn()) {
+            redirect('login');
+            return;
+        }
+
+        $userId = $s->get("user_id");
+
+        // Buscar dados dinâmicos do motorista
+        $driverData = $this->driverModel->findDriverById($userId);
+
+        if (!$driverData) {
+            setFlash('errors', ['Perfil de motorista não encontrado.']);
+            redirect('login');
+            return;
+        }
+
+        // Dados para o dashboard
+        $data = [
+            "pageTitle"       => "CARPOOL Angola — Painel do Motorista",
+            "driver"          => $driverData,
+            "upcomingRide"    => $this->driverModel->getUpcomingRide($userId),
+            "monthlyEarnings" => $this->driverModel->getMonthlyEarnings($userId),
+            "totalTrips"      => $this->driverModel->getTotalTrips($userId),
+            "avgRating"       => $this->driverModel->getAverageRating($userId),
+            "recentRides"     => $this->driverModel->getRecentRides($userId, 4),
+            "IsLoggedIn"      => true
+        ];
+
+        $this->view("homedriver", $data);
     }
 }

@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <?php if(!empty($pageTitle)): ?>
   <title><?= $pageTitle ?></title>
+  <?php endif;  ?>
 
   <!-- CDNs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -53,6 +55,9 @@
       <li><a href="#features" data-i18n="nav.features">Funcionalidades</a></li>
       <li><a href="#how" data-i18n="nav.how">Como Funciona</a></li>
       <li><a href="#testimonials" data-i18n="nav.testimonials">Testemunhos</a></li>
+      <?php if (!empty($isLoggedIn)): ?>
+        <li><a href="<?= url("/minhas-viagens") ?>" data-i18n="nav.my-trips">Minhas Viagens</a></li>
+        <?php endif; ?>
     </ul>
     <div class="nav-controls">
       
@@ -63,6 +68,21 @@
       <button id="theme-toggle" class="neu-btn" title="Alternar tema">
         <i class="fa-solid fa-moon" id="theme-icon"></i>
       </button>
+      <?php if (!empty($isLoggedIn)): ?>
+            <!-- Usuário Logado -->
+            <a href="<?= url("/perfil") ?>" class="flex items-center gap-3 neu-btn">
+                <img src="<?= $userAvatar ?? '/assets/images/default-avatar.png' ?>" 
+                     alt="Perfil" 
+                     class="w-8 h-8 rounded-2xl object-cover border border-white shadow-sm">
+                <span class="font-medium text-sm"><?= htmlspecialchars($userName ?? 'Utilizador') ?></span>
+            </a>
+        <?php else: ?>
+            <!-- Usuário Não Logado -->
+            <a href="<?= url("/login") ?>" class="neu-btn">
+                <i class="fa-solid fa-user"></i>
+                <span data-i18n="nav.login">Entrar</span>
+            </a>
+        <?php endif; ?>
     </div>
   </nav>
 

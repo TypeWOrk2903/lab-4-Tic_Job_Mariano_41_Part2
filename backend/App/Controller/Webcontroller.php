@@ -31,8 +31,12 @@ class WebController
     }
     public function index(): void
     {
+        $s=new Session();
         $this->view('home', [
-            'pageTitle' => 'Carpool — Boleias Partilhadas'
+            'pageTitle' => 'Carpool — Boleias Partilhadas',
+            'isLoggedIn'=>$this->isLoggedIn(),
+            'userName'=>$s->get("user_name"),
+            'userAvatar'=>$s->get("user_avatar")
         ]);
     }
     
