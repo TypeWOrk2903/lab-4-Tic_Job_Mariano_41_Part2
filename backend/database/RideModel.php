@@ -34,13 +34,13 @@ class RideModel extends Model
                 u.avatar,
                 o.city_name AS origin_city,
                 d.city_name AS destination_city,
-                COALESCE(AVG(ur.score_stars), 0) AS avg_rating,
+                COALESCE(AVG(ur.stars), 0) AS avg_rating,
                 COUNT(ur.id) AS total_ratings
             FROM rides r
             INNER JOIN users u ON r.driver_id = u.id
             INNER JOIN locations o ON r.origin_id = o.id
             INNER JOIN locations d ON r.destination_id = d.id
-            LEFT JOIN user_ratings ur ON ur.evaluated_id = r.driver_id
+            LEFT JOIN reviews ur ON ur.evaluated_id = r.driver_id
             WHERE r.status = 'active'
               AND DATE(r.departure_time) = :search_date
               AND o.city_name LIKE :origin
@@ -73,12 +73,12 @@ class RideModel extends Model
                 u.phone AS driver_phone,
                 o.city_name AS origin_city,
                 d.city_name AS destination_city,
-                COALESCE(AVG(ur.score_stars), 0) AS avg_rating
+                COALESCE(AVG(ur.stars), 0) AS avg_rating
             FROM rides r
             INNER JOIN users u ON r.driver_id = u.id
             INNER JOIN locations o ON r.origin_id = o.id
             INNER JOIN locations d ON r.destination_id = d.id
-            LEFT JOIN user_ratings ur ON ur.evaluated_id = r.driver_id
+            LEFT JOIN reviews ur ON ur.evaluated_id = r.driver_id
             WHERE r.id = :id
             GROUP BY r.id
         ";

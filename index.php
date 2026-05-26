@@ -21,6 +21,10 @@ $router->post('/register', 'User@index');
 $router->get('/login', 'User@login');
 $router->post('/login', 'User@login');
 $router->get('/logout', 'User@logout');
+$router->match("GET|POST","/pesquisar-viagens","TravelController@search");
+$router->match("GET|POST","/detail-motorista/{travel_id}/{drive_id}","TravelController@detailReserved");
+$router->match("GET|POST","/pagamento","TravelController@paymment");
+
 
 $router->run(false);
 // ----------------------------------------------------

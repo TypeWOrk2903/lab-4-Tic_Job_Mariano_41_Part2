@@ -55,6 +55,7 @@
       <li><a href="#testimonials" data-i18n="nav.testimonials">Testemunhos</a></li>
     </ul>
     <div class="nav-controls">
+      
       <button id="lang-toggle" class="neu-btn" title="Trocar idioma">
         <i class="fa-solid fa-globe"></i>
         <span id="lang-label">EN</span>
