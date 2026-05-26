@@ -71,11 +71,14 @@
       <?php if (!empty($isLoggedIn)): ?>
             <!-- Usuário Logado -->
             <a href="<?= url("/perfil") ?>" class="flex items-center gap-3 neu-btn">
-                <img src="<?= $userAvatar ?? '/assets/images/default-avatar.png' ?>" 
+                <img src="<?= $userAvatar ?? url_asset("images/default-avatar.png") ?>" 
                      alt="Perfil" 
                      class="w-8 h-8 rounded-2xl object-cover border border-white shadow-sm">
+                <?php if(!empty($userName)):?>     
                 <span class="font-medium text-sm"><?= htmlspecialchars($userName ?? 'Utilizador') ?></span>
+                <?php endif?>
             </a>
+            <a href="<?=url("/logout") ?>">Sair</a>
         <?php else: ?>
             <!-- Usuário Não Logado -->
             <a href="<?= url("/login") ?>" class="neu-btn">

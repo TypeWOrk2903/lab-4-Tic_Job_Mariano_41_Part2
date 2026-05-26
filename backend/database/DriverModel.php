@@ -62,7 +62,7 @@ class DriverModel extends Model
     public function getMonthlyEarnings(int $driverId): float
     {
         $stmt = $this->query(
-            "SELECT COALESCE(SUM(price_per_seat * (total_seats_booked)), 0) AS total 
+            "SELECT COALESCE(SUM(price_per_seat * (available_seats)), 0) AS total 
              FROM rides 
              WHERE driver_id = :driver_id 
                AND status = 'completed' 
@@ -96,8 +96,8 @@ class DriverModel extends Model
     public function getAverageRating(int $driverId): float
     {
         $stmt = $this->query(
-            "SELECT COALESCE(AVG(score_stars), 0) as avg_rating 
-             FROM user_ratings 
+            "SELECT COALESCE(AVG(stars), 0) as avg_rating 
+             FROM reviews 
              WHERE evaluated_id = :driver_id",
             ['driver_id' => $driverId]
         );

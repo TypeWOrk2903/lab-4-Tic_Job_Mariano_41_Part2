@@ -46,22 +46,11 @@ class Driver
     public function index(): void
     {
         $s = new Session();
-        if (!$this->isLoggedIn()) {
-            redirect('login');
-            return;
-        }
 
         $userId = $s->get("user_id");
 
         // Buscar dados dinâmicos do motorista
         $driverData = $this->driverModel->findDriverById($userId);
-
-        if (!$driverData) {
-            setFlash('errors', ['Perfil de motorista não encontrado.']);
-            redirect('login');
-            return;
-        }
-
         // Dados para o dashboard
         $data = [
             "pageTitle"       => "CARPOOL Angola — Painel do Motorista",

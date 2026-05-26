@@ -126,6 +126,25 @@ class UserModel extends Model
 
         return $user ?: null;
     }
+       /**
+     * Busca todos os dados de um condutor pelo ID
+     */
+    public function findById(int $id): ?array
+    {
+        $stmt = $this->query(
+            "SELECT * FROM users 
+             WHERE id = :id 
+             LIMIT 1",
+            ['id' => $id]
+        );
+
+        $user = $stmt->fetch();
+        if ($user) {
+            unset($user['password']);
+        }
+
+        return $user ?: null;
+    }
 
     // ── AUTENTICAÇÃO ───────────────────────────────────────────────────
 
